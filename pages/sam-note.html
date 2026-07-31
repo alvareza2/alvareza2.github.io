@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two Inches of Air — for Henry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<!--
+  ============================================================
+  FILE LAYOUT THIS PAGE EXPECTS
+
+    /index.html
+    /about.html
+    /lit.html
+    /pages/sam-note.html   <- this file
+    /images/               <- photos + voice recording live here
+
+  All five photos and the audio are ALREADY wired up. Nothing in
+  this HTML needs editing - just drop files into /images/ with
+  these exact names:
+
+    sam_henry-image-1.jpg    Henry, glasses on, bad light, mid-sentence
+    sam_henry-image-2.jpg    the workspace - desk, gear, one lamp
+    sam_henry-image-3.jpg    outside at night, bike, weather
+    sam_henry-image-4.jpg    hands, close, doing the thing
+    sam_henry-image-5.jpg    the goodbye
+    sam_henry-audio.mp3      the read-aloud (.m4a and .wav also accepted)
+
+  Until a file exists, its frame shows the italic photo cue instead
+  of a broken-image icon, and the audio bar hides itself.
+  Portrait and landscape photos both work; no cropping.
+
+  ============================================================
+-->
+
+<style>
+  :root{
+    --bg:        #0e0b11;
+    --bg-lift:   #16121b;
+    --bg-panel:  #171320;
+    --bone:      #eee8ea;
+    --bone-dim:  #8f8792;
+    --rose:      #a8586b;
+    --peri:      #8d93c4;
+    --display: "Instrument Serif", "Didot", "Bodoni MT", Georgia, serif;
+    --body: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --micro: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, sans-serif;
+    --col: 34rem;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--bone);
+    font-family:var(--body);
+    font-size:1.05rem;
+    line-height:2;
+    letter-spacing:.004em;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(45% 32% at 22% 8%,  rgba(168,88,107,.20), transparent 70%),
+      radial-gradient(40% 30% at 82% 34%, rgba(141,147,196,.13), transparent 70%),
+      radial-gradient(50% 40% at 50% 104%,rgba(168,88,107,.10), transparent 70%);
+    animation:drift 26s ease-in-out infinite alternate;
+  }
+  body::after{
+    content:"";
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @keyframes drift{
+    from{ transform:translate3d(0,0,0) scale(1); }
+    to  { transform:translate3d(0,-2%,0) scale(1.06); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    body::before{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  .page{ position:relative; z-index:2; }
+  .col{
+    max-width:var(--col);
+    margin:0 auto;
+    padding:0 clamp(1.25rem,5vw,3rem);
+  }
+
+  /* ---------------- title ---------------- */
+
+  /* back link */
+  .topbar{
+    max-width:40rem; margin:0 auto;
+    padding:2.2rem clamp(1.25rem,5vw,3rem) 0;
+  }
+  .back{
+    font-family:var(--micro); font-size:.62rem;
+    text-transform:uppercase; letter-spacing:.3em;
+    color:var(--bone-dim); text-decoration:none;
+    display:inline-flex; align-items:center; gap:.6rem;
+    transition:color .2s;
+  }
+  .back:hover{ color:var(--rose); }
+  .back:focus-visible{ outline:2px solid var(--peri); outline-offset:4px; }
+
+  .title{
+    display:flex; flex-direction:column; justify-content:flex-end;
+    max-width:48rem; margin:0 auto;
+    padding:clamp(3rem,9vh,6rem) clamp(1.25rem,5vw,3rem) clamp(3rem,7vh,4.5rem);
+  }
+  .eyebrow{
+    font-family:var(--micro);
+    font-size:.66rem; text-transform:uppercase;
+    letter-spacing:.42em; color:var(--peri);
+    line-height:2; margin-bottom:2.5rem;
+  }
+  h1{
+    font-family:var(--display); font-weight:400;
+    font-size:clamp(3.4rem,15vw,8rem);
+    line-height:.9; letter-spacing:-.015em; margin:0;
+  }
+  h1 span{ display:block; color:var(--rose); font-style:italic; }
+  .standfirst{
+    font-style:italic; color:var(--bone-dim);
+    font-size:1.05rem; line-height:1.9;
+    max-width:24rem; margin:2.6rem 0 0;
+  }
+
+  /* ---------------- apparatus: the note ---------------- */
+  /* deliberately NOT the story: sans-serif, tighter, lifted panel */
+
+  .note{
+    max-width:40rem; margin:1.4rem auto 0;
+    padding:0 clamp(1.25rem,5vw,3rem);
+  }
+  .note-inner{
+    background:var(--bg-panel);
+    border:1px solid rgba(141,147,196,.22);
+    border-radius:3px;
+    padding:clamp(1.6rem,5vw,2.6rem);
+    box-shadow:0 30px 60px -40px #000;
+  }
+  .label{
+    font-family:var(--micro);
+    font-size:.62rem; text-transform:uppercase;
+    letter-spacing:.34em; color:var(--peri);
+    display:flex; align-items:center; gap:.8rem;
+    margin-bottom:1.4rem;
+  }
+  .label::after{
+    content:""; flex:1; height:1px;
+    background:linear-gradient(90deg,rgba(141,147,196,.4),transparent);
+  }
+  .note p{
+    font-family:var(--micro);
+    font-size:.95rem; line-height:1.75;
+    letter-spacing:0; color:#ded8dc;
+    margin:0;
+  }
+  .note .sign{
+    font-family:var(--micro);
+    font-size:.68rem; text-transform:uppercase;
+    letter-spacing:.28em; color:var(--bone-dim);
+    margin-top:1.6rem;
+  }
+
+  /* ---------------- apparatus: read-aloud ---------------- */
+
+  .listen{
+    max-width:40rem; margin:0 auto 6rem;
+    padding:0 clamp(1.25rem,5vw,3rem);
+  }
+  .listen[hidden]{ display:none; }
+  .player{
+    display:flex; align-items:center; gap:1rem;
+    background:linear-gradient(180deg,rgba(168,88,107,.10),rgba(22,18,27,.6));
+    border:1px solid rgba(168,88,107,.28);
+    border-radius:999px;
+    padding:.7rem .95rem .7rem .7rem;
+  }
+  .pp{
+    flex:none; width:2.6rem; height:2.6rem; border-radius:50%;
+    border:1px solid rgba(238,232,234,.3);
+    background:rgba(238,232,234,.06); color:var(--bone);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .2s, border-color .2s;
+  }
+  .pp:hover{ background:rgba(168,88,107,.3); border-color:var(--rose); }
+  .pp:focus-visible{ outline:2px solid var(--peri); outline-offset:2px; }
+  .pp svg{ width:15px; height:15px; fill:currentColor; }
+  .pp .ic-pause{ display:none; }
+  .pp[data-playing="1"] .ic-play{ display:none; }
+  .pp[data-playing="1"] .ic-pause{ display:block; }
+
+  .seek{ flex:1; display:flex; flex-direction:column; gap:.4rem; min-width:0; }
+  .seek-name{
+    font-family:var(--micro); font-size:.6rem;
+    text-transform:uppercase; letter-spacing:.26em;
+    color:var(--bone-dim); line-height:1.4;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .bar{
+    height:3px; border-radius:2px; cursor:pointer;
+    background:rgba(238,232,234,.14); position:relative;
+  }
+  .bar:focus-visible{ outline:2px solid var(--peri); outline-offset:4px; }
+  .fill{
+    position:absolute; inset:0 auto 0 0; width:0%;
+    background:var(--rose); border-radius:2px;
+    box-shadow:0 0 10px rgba(168,88,107,.7);
+  }
+  .clock{
+    flex:none; font-family:var(--micro);
+    font-size:.66rem; letter-spacing:.12em;
+    color:var(--bone-dim); font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------------- the story ---------------- */
+
+  article{ padding-bottom:7rem; }
+  article p{ margin:0 0 1.7rem; }
+  article p em{ color:#fbf6f8; font-style:italic; }
+
+  .lede::first-letter{
+    float:left; font-family:var(--display);
+    font-size:4.2rem; line-height:.78;
+    padding:.3rem .55rem 0 0; color:var(--rose);
+  }
+
+  .rule{ display:flex; align-items:center; gap:1.1rem; margin:3.6rem 0; }
+  .rule::before,.rule::after{
+    content:""; flex:1; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(238,232,234,.22),transparent);
+  }
+  .rule i{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--rose); flex:none;
+    box-shadow:0 0 12px 2px rgba(168,88,107,.5);
+  }
+
+  /* ---------------- photo plates ---------------- */
+
+  .plate{
+    margin:4rem calc(50% - min(23rem,44vw));
+    width:min(46rem,88vw);
+    text-align:center;
+  }
+  .frame{
+    display:inline-block; position:relative;
+    max-width:100%; line-height:0; border-radius:2px;
+  }
+  .frame::after{
+    content:""; position:absolute; inset:0;
+    border-radius:2px; pointer-events:none;
+    box-shadow:inset 0 0 90px 18px rgba(14,11,17,.5);
+  }
+  .frame img{
+    display:block; max-width:100%; max-height:78vh;
+    width:auto; height:auto; border-radius:2px;
+    filter:saturate(.86) contrast(1.05);
+  }
+  .frame .slot{ display:none; }
+  .frame.missing img{ display:none; }
+  .frame.missing::after{ box-shadow:none; }
+  .frame.missing .slot{
+    display:flex; align-items:center; justify-content:center;
+    width:min(46rem,88vw); aspect-ratio:16/10;
+    text-align:center; padding:2rem;
+    border:1px solid rgba(238,232,234,.13); border-radius:2px;
+    background:
+      radial-gradient(70% 70% at 50% 45%, rgba(168,88,107,.07), transparent 75%),
+      var(--bg-lift);
+    font-family:var(--body); font-style:italic;
+    font-size:.95rem; line-height:1.8; color:var(--bone-dim);
+  }
+  .plate figcaption{
+    font-family:var(--micro); font-size:.6rem;
+    text-transform:uppercase; letter-spacing:.3em;
+    color:var(--bone-dim); padding-top:1.1rem; line-height:2;
+  }
+
+  /* ---------------- apparatus: transcript ---------------- */
+
+  .archive{
+    max-width:44rem; margin:0 auto;
+    padding:3.5rem clamp(1.25rem,5vw,3rem) 7rem;
+    border-top:1px solid rgba(238,232,234,.12);
+  }
+  details{
+    background:var(--bg-panel);
+    border:1px solid rgba(141,147,196,.2);
+    border-radius:3px;
+  }
+  summary{
+    cursor:pointer; list-style:none;
+    padding:1.3rem clamp(1.2rem,4vw,2rem);
+    font-family:var(--micro); font-size:.68rem;
+    text-transform:uppercase; letter-spacing:.3em;
+    color:var(--peri);
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  }
+  summary::-webkit-details-marker{ display:none; }
+  summary::after{ content:"+"; font-size:1.1rem; letter-spacing:0; color:var(--bone-dim); }
+  details[open] summary::after{ content:"\2013"; }
+  summary:focus-visible{ outline:2px solid var(--peri); outline-offset:-4px; }
+
+  .transcript{
+    padding:2rem clamp(1.2rem,4vw,2rem) 2.4rem;
+    border-top:1px solid rgba(141,147,196,.16);
+  }
+  .turn{ margin-bottom:2.4rem; }
+  .who{
+    font-family:var(--micro); font-size:.58rem;
+    text-transform:uppercase; letter-spacing:.34em;
+    color:var(--rose); margin-bottom:.7rem;
+  }
+  .turn.claude .who{ color:var(--peri); }
+  .transcript p,.transcript li{
+    font-family:var(--micro); font-size:.86rem;
+    line-height:1.7; letter-spacing:0; color:#cfc8ce;
+    margin:0 0 .9rem;
+  }
+  .transcript ol{ padding-left:1.4rem; margin:0 0 .9rem; }
+  .transcript ol li{ margin-bottom:.9rem; }
+  .transcript blockquote{
+    margin:1.1rem 0; padding:.2rem 0 .2rem 1.2rem;
+    border-left:2px solid rgba(168,88,107,.5);
+  }
+  .transcript blockquote p{
+    font-family:var(--body); font-size:.95rem;
+    line-height:1.9; color:#ded8dc;
+  }
+  .transcript strong{ color:var(--bone); font-weight:600; }
+  .credits{
+    font-family:var(--micro); font-size:.62rem;
+    text-transform:uppercase; letter-spacing:.28em;
+    line-height:2.2; color:var(--bone-dim);
+    margin-top:3rem; padding-top:1.6rem;
+    border-top:1px solid rgba(238,232,234,.1);
+  }
+
+  .colophon{
+    max-width:var(--col); margin:0 auto;
+    padding:0 clamp(1.25rem,5vw,3rem) 8rem;
+    font-family:var(--micro); font-size:.64rem;
+    text-transform:uppercase; letter-spacing:.32em;
+    line-height:2.4; color:var(--bone-dim);
+  }
+
+  @media print{
+    body{ background:#fff; color:#111; }
+    body::before,body::after,.frame::after{ display:none; }
+    .listen,details{ display:none; }
+    h1 span,.lede::first-letter{ color:#111; }
+    .rule i{ background:#111; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===================== BACK LINK ===================== -->
+  <div class="topbar">
+    <a class="back" href="../index.html">&larr; Home</a>
+  </div>
+
+  <!-- ===================== THE NOTE ===================== -->
+  <section class="note">
+    <div class="note-inner">
+      <div class="label">Before you start</div>
+      <p>Henry, for the special privilege of writing a message to remind you of home, and especially on Alyssa's word that I'm in charge of the month of love (February), I thought nothing more fitting than for Claude to generate the romance novel that I always intended to write. If you're missing home I hope that this beautiful story of connection and love will fill that gaping hole in your heart. I hope the stories you're living are just as magical as this one. We love you Henry. We can't wait for you to return and enchant us with your wild tales. If you want to see me and Claude's conversation about you I've attached it at the bottom.</p>
+      <div class="sign">&mdash; Sam</div>
+    </div>
+  </section>
+
+  <!-- ===================== TITLE ===================== -->
+  <header class="title">
+    <div class="eyebrow">A story &nbsp;&middot;&nbsp; New York &nbsp;&middot;&nbsp; one summer</div>
+    <h1>Two Inches<span>of Air</span></h1>
+    <p class="standfirst">He had one reel of tape, one working pass, and thirty-one minutes in which I was supposed to tell the truth.</p>
+  </header>
+
+  <!-- ===================== READ ALOUD ===================== -->
+  <section class="listen" id="listen">
+    <div class="label">Read aloud</div>
+    <div class="player">
+      <button class="pp" id="pp" data-playing="0" aria-label="Play the recording">
+        <svg class="ic-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v13l11-6.5z"/></svg>
+        <svg class="ic-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z"/></svg>
+      </button>
+      <div class="seek">
+        <div class="seek-name">Two Inches of Air &mdash; in my voice</div>
+        <div class="bar" id="bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="fill" id="fill"></div>
+        </div>
+      </div>
+      <div class="clock" id="clock">0:00</div>
+    </div>
+    <audio id="audio" preload="metadata">
+      <source src="../images/sam_henry-audio.mp3" type="audio/mpeg">
+      <source src="../images/sam_henry-audio.m4a" type="audio/mp4">
+      <source src="../images/sam_henry-audio.wav" type="audio/wav">
+    </audio>
+  </section>
+
+  <!-- ===================== STORY ===================== -->
+  <article class="col">
+
+    <p class="lede">He asked me on a Tuesday, in a bar so dark the bartender worked by feel. Not a date. Never a date &mdash; he'd have made a bit of it and the bit would have been the end of it. He asked me to hold a microphone.</p>
+
+    <p>"One pass," he said. "Straight to tape. No undo."</p>
+
+    <p>He had spent nine weeks turning a year of a lake into sound &mdash; every temperature reading off a buoy that nobody visits, scaled to something a room could hear &mdash; and he refused to keep it in a computer, where it would be safe. He wanted it on the machine we'd bought broken in June. Thirty-five dollars. Eleven pounds of dead steel. He'd had it apart on his kitchen table for a month, and now it worked exactly once per night, if the room was cold and he asked it nicely.</p>
+
+    <p>"So what do I do," I said.</p>
+
+    <p>He took his glasses off, which he only ever needs at night, and cleaned them on his shirt, and put them back on, and looked at me through them like the prescription had changed.</p>
+
+    <p>"Somewhere in the middle," he said, "the light goes green. You say something true. That's it. That's the whole part."</p>
+
+    <p>"True about what?"</p>
+
+    <p>"Nah," he said, "you're good," and turned to the bartender to ask about the jukebox, and that was how he ended conversations he was afraid of &mdash; he handed them to the nearest stranger. He is fearless in almost every direction. He will email a man in Denmark he has never met. He will not finish a sentence that costs him anything.</p>
+
+    <figure class="plate">
+      <div class="frame">
+        <img src="../images/sam_henry-image-1.jpg" alt="Henry">
+        <div class="slot">[ photo: Henry, glasses on, bad light, mid-sentence ]</div>
+      </div>
+    </figure>
+
+    <div class="rule"><i></i></div>
+
+    <p>We worked eleven nights in a borrowed room above a laundromat, which meant heat coming up through the floor and the whole place smelling faintly of other people's clean clothes. He'd bike over with the reels in a pannier, hair flat with sweat, hat off, already talking. Then the door would close and he'd go quiet in that way he has, all the charm draining out of him and something older taking the controls, and for two hours he'd be nothing but hands.</p>
+
+    <p>I learned things about him in that room that six months of bars hadn't told me. That he counts under his breath. That when a take is going well he stops blinking. That he can hear a fault in a signal four seconds before it happens and puts his palm flat on the desk like he's calming an animal.</p>
+
+    <p>On the fourth night my timing was late and he reached over and put two fingers on the inside of my wrist to give me the tempo. He kept them there for eleven beats. I know it was eleven because I counted, and I counted because counting was the only thing standing between me and saying something unforgivable.</p>
+
+    <p>"There," he said. "Feel it?"</p>
+
+    <p>I said yes. I meant something else. He'd already moved.</p>
+
+    <figure class="plate">
+      <div class="frame">
+        <img src="../images/sam_henry-image-2.jpg" alt="The room above the laundromat">
+        <div class="slot">[ photo: the room above the laundromat &mdash; machine, cables, the one lamp ]</div>
+      </div>
+    </figure>
+
+    <p>The trouble was he was like that with everyone. I'd watch him at the function, working a room of forty, and every single person got the full beam &mdash; the head tilt, the follow-up question, the hand that comes out and lands on your arm for one second when you say something funny. He gave it away constantly and completely and it cost him nothing, and it meant I could never once be sure the room above the laundromat was different for him than any other room.</p>
+
+    <p>That's the tension, if you want it plainly. Not whether he wanted me. Whether I was a person to him or a very good acoustic.</p>
+
+    <div class="rule"><i></i></div>
+
+    <p>I found out on the ninth night, and not from him.</p>
+
+    <p>Somebody at the bar downstairs congratulated me on his fellowship. Most of a year. Most of the continents. Islands he'd have to reach by boat, to sit with people who keep a whole percussion tradition in their hands and their memory and nothing else, and get it onto a drive before the last man who knows it dies.</p>
+
+    <p>I went back up the stairs and stood in the doorway until he looked round.</p>
+
+    <p>"So the tape's a goodbye," I said.</p>
+
+    <p>He didn't do a bit. That's how I knew. He set down what he was holding and put both hands on the desk and said, "It's not a goodbye, it's a&mdash;" and then he stopped, and the stopping was so much worse. He'd asked me to help him build the object of my own absence and hadn't been able to say the word <em>year</em> out loud in eleven nights.</p>
+
+    <p>"No worries," I said, which is his line, and I used it as a weapon, and he took it like one.</p>
+
+    <p>I biked home in the rain. He did not chase me, because he is thirty percent coward, and he texted at 2:40 a.m., and the text said: <em>tomorrow. the room's cold enough.</em></p>
+
+    <figure class="plate">
+      <div class="frame">
+        <img src="../images/sam_henry-image-3.jpg" alt="Henry outside, late">
+        <div class="slot">[ photo: Henry outside, late, rain, bike, glasses on ]</div>
+      </div>
+    </figure>
+
+    <div class="rule"><i></i></div>
+
+    <p>Thirty-one minutes. That's how long a year of a lake takes, if you play it at the right speed.</p>
+
+    <p>He got the machine running on the second try. The reels went round. The drone came up out of the floor, cold at the start &mdash; January, the ice &mdash; and I stood two feet from him in the dark with a microphone in my hand and watched the little green light and understood that he had built me a room with an exit and was waiting to see whether I'd use it.</p>
+
+    <p>Neither of us moved for nineteen minutes. Spring somewhere in there, the pitch climbing. His sleeve was two inches from my arm and had been for eleven nights and he did not close it and he did not step away, and by minute twenty I had stopped being able to tell the difference between the sound in the room and the sound in my ears.</p>
+
+    <p>Then the light went green.</p>
+
+    <p>What I said was: <em>"I'm going to be here."</em></p>
+
+    <p>What I meant was the other thing, and he knew, because his eyes closed for exactly one second &mdash; a man taking a hit &mdash; and then he reached over without looking and put his hand around my wrist, over the pulse, and left it there for the remaining nine minutes and thirty seconds of the summer.</p>
+
+    <p>The tape ran out. The room went so quiet it rang.</p>
+
+    <p>"Yeah," he said. "Okay." And that was all of it. That was the whole conversation, and it was, I want to be clear, the loudest thing that has ever been said to me.</p>
+
+    <figure class="plate">
+      <div class="frame">
+        <img src="../images/sam_henry-image-4.jpg" alt="The take">
+        <div class="slot">[ photo: the take &mdash; hands, reel, low light, nobody posing ]</div>
+      </div>
+    </figure>
+
+    <div class="rule"><i></i></div>
+
+    <p>He left on a Sunday with a bag, three power adapters, and a hat he does not need in that hemisphere.</p>
+
+    <p>He did not take the reel. He put it in my hands at the door, wrapped in a t-shirt, and said, "Hold this for me," and then, because sincerity is unsurvivable for him past four seconds, he said something absurd about customs officers and orchestras, and laughed, and reached out and touched my arm for one second, and went down the stairs.</p>
+
+    <p>So here's what he's coming back to.</p>
+
+    <p>Eleven pounds of dead steel on my kitchen table. One reel of tape, thirty-one minutes long, with a lake at the bottom of it and my voice somewhere in the middle at minute nineteen, saying the false version of the true thing.</p>
+
+    <p>I haven't played it. Not once. That's the arrangement, and it's a year long, and I'm keeping it.</p>
+
+    <p>Come home and we'll listen to the room.</p>
+
+    <figure class="plate">
+      <div class="frame">
+        <img src="../images/sam_henry-image-5.jpg" alt="The goodbye">
+        <div class="slot">[ photo: the goodbye &mdash; the door, the airport, whichever one hurts ]</div>
+      </div>
+    </figure>
+
+  </article>
+
+  <!-- ===================== TRANSCRIPT ===================== -->
+  <section class="archive">
+    <details>
+      <summary>My conversation with Claude, in case you're curious</summary>
+      <div class="transcript">
+
+        <div class="turn">
+          <div class="who">Me</div>
+          <p>I need to write a multi-page romance novel about my friend Henry Burkhardt. The plot is that he is a dashingly handsome jazz musician/record label manager/band guitarist/radio station manager who seduces me through his love for both music and technology. It needs to be sultry but not sexual, tense, and oozing with charm and character. I want to feel engorged with the world and electrified with both the atmosphere and the action that's unfolding on the page. It should be maybe 2-3 pages double spaced and leave spaces in it for me to insert photos of Henry (marked with breakage in the text with italics). Write the whole thing in HTML as this is going on a website that he will be accessing when he misses us because he's going abroad for a whole year. I'll attach some context of what makes Henry so special so that your story doesn't feel flat and robotic. Let me know what kind of things I can attach that would best help you write this story</p>
+        </div>
+
+        <div class="turn claude">
+          <div class="who">Claude</div>
+          <p>What a good going-away present. Here's what would move this from generic-swoon to unmistakably-Henry &mdash; you don't need all of it, but three or four items from each group would be plenty:</p>
+          <p><strong>His hands and his habits.</strong> How he holds a guitar, what he does with his glasses when he's thinking, the jacket he always wears, how he laughs, a word he says strangely. Specific physical tics do more romantic work than any adjective I could invent.</p>
+          <p><strong>The music, named.</strong> The label, the band, the station's call letters, his instrument and what it actually sounds like when he plays, one standard or tune that's <em>his</em>, the artists he'll evangelize at you unprompted.</p>
+          <p><strong>The tech, named.</strong> Tape machines, a particular preamp or console, something he soldered back to life, software he's weirdly loyal to. Competence is the whole engine of this kind of story &mdash; I want a real object for him to be good at.</p>
+          <p><strong>Places.</strong> The studio, the booth at 1 a.m., a bar, a car, a stairwell. Give me two or three real rooms and I'll set scenes in them.</p>
+          <p><strong>Things he actually says.</strong> Verbatim lines, in-jokes, what he calls your group, what he called the goodbye.</p>
+          <p><strong>Tone dials.</strong> Where he's going abroad and for how long; whether Henry is in on the joke (winking pastiche vs. played straight); whether the narrator is <em>you</em> by name or an unnamed "I"; and anything that's off-limits.</p>
+          <p>Here's the register I'd be working in, so you can redirect me before I commit three pages to it:</p>
+          <blockquote>
+            <p>The station was dead air and blue light, and he was the only thing moving in it. He didn't look up when I came in &mdash; just lifted two fingers off the fader, which is how Henry says <em>hello, stay</em>. The needle found the groove. Somewhere under the hum of forty-year-old tubes a horn came up out of the dark like it had been waiting all night for permission.</p>
+            <p>"Listen to the room," he said. "Not the horn. The room."</p>
+            <p>I listened to the room. I did not hear the room. I heard the two inches of air between his sleeve and my arm, and how neither of us moved to close it.</p>
+          </blockquote>
+          <p>If that's the temperature, send the details and I'll build it as a single self-contained HTML file &mdash; double-spaced serif, dark and warm, with four or five italic photo cues (<em>[photo: Henry at the board, 1 a.m.]</em>) sitting in styled placeholder frames so you can drop images straight in without touching the layout.</p>
+        </div>
+
+        <div class="turn">
+          <div class="who">Me</div>
+          <ol>
+            <li>He's Minnesota in origin but not in a stereotypical Canadian-adjacent way. More in a Minneapolis, biking, coffee shop, sailing instructor, house diy band, close with his family, adhd, kind of way. He wears glasses but only at night. He's a nerd about really specific things. He loves technology, but only for art. He likes making music or visual art that uses data from lakes or lets people input sounds to make soundscapes etc. He's around 6 ft - 6'1 tall. He loves a slightly wide, but not too wide straight cut jean; almost indie-rock adjacent clothing. Nice graphic t-shirt, sambas, solomons, birkenstocks. He loves backpacking, but he makes an exception to go on a friend canoeing every year. He's outdoorsy, in a bikes everywhere, owns gear and an stove kind of way, but not in a spends 30 days in the woods straight way. He is white with brown straight spiky hair. Not super spiky but a little shaggy, a little moddy. If you say something funny he'll like reach out and touch you in a acknowledging and appreciative way. He's super personable, makes sure he gives fair attention to everyone in a room. He's super funny, lots of bits, he enjoys absurdist humor. For instance, he disassembled his friend's bed and reassembled it outside in the middle of winter. Or he once 3D printed "The Burkhardt Stairwell of Academic Excellence" in the font that our school used for donated commons like "The Redleaf Commons" to make it look like he had paid for the stairwell. He likes going on long research stints on random topics that he finds interesting and often finds himself involved invited to niche events and occasions because of his propensity to just go out and do things without fear. Reaching out to people via email, finding things in the street, etc. Lastly, he likes headwear. In the summer, a variety of baseball caps, not everyday, but a lot of days. In the winter he has an ushanka that he wears sometimes, but only as a statement piece. He will always be involved in the craziest side-plot story of all time that doesn't make any sense and would literally ONLY happen to him</li>
+            <li>His band is called I think "Mucket" or something indie grunge like that. They play like alt-country kind of but a little heavier. He wore a lot of different hats in the band but mostly guitar. I can't remember the label off the top of my head but it was a Brooklyn based label that he worked for for a month at the end of last summer when he joined me in New York for the summer (we should base this story in New York). Henry loves the Danish revivalist movement that's going on in Denmark right now. He also loves the New York underground and small bands in that field, but not in a pretentious way, more in a ADHD special interest way. He loves artists like MJ Lenderman, Sweet Trip, Ear, Cooper B. Handy, Nourished By Time, and Shallowater to name a few.</li>
+            <li>He really likes analog tech, vinyl, he owns a broken tape machine we got at the flea market last summer, he likes Ableton and production software, but mostly he likes writing his own scripts and little side projects in JS and Python. He worked for a B2B SAAS Ai startup called Tabs that does automated accounting using ai but I wouldn't consider him a tech bro in any regard.</li>
+            <li>A moody wine bar, a diy small house show in a rural area, a jazz club with inappropriately low lighting, a friends home filled with joy and laughter, a dive bar with really cheap drinks and blasting punk rock, a beautiful outdoor hike, a graffitied "in" spot with cool people that will get found by finance bros in a few months but for right now it's perfect, at home with his family, at a campfire on a river bank.</li>
+            <li>He says "No worries," "I was just about to get up/I was just about to do X," "I will DEFINITELY be there in X," "Yo," "Pull up," "Nah, you're good bro," "Bro," "The function," "That's funny because... *builds on top with new story," "Nah"</li>
+            <li>He's travelling all over for a fellowship hitting most continents doing stuff related to music and technology like digitally documenting tribal sub-genres of an orally passed on percussion music in Indonesia where he'll have to island hop to find remote tribes in Indonesia. The bit of me writing a romance novel about Henry has existed for many years but it never came to fruition for obvious reasons so he knows of the joke but isn't necessarily expecting it. I should be the narrator and it would be really cool if you could take my nomenclature and use it to write the story in my language and verbiage. Nothing is off limits&mdash;do your worst. I think it should be "me" but not by name, it should be first person and clearly written by me but not saying "Sam" this "Sam" that etc.</li>
+            <li>I think the temperature of your brief clip is beautiful and should absolutely be persisted for 3 pages. The formatting sounds fantastic. Go for it</li>
+          </ol>
+        </div>
+
+        <div class="credits">
+          Additional credits for helping<br>
+          Hailey &nbsp;&middot;&nbsp; Regan &nbsp;&middot;&nbsp; Alyssa &nbsp;&middot;&nbsp; Grant Mortenson &nbsp;&middot;&nbsp; Ben Hanson
+        </div>
+
+      </div>
+    </details>
+  </section>
+
+  <div class="colophon">
+    Two Inches of Air<br>
+    Written for H.B., who is leaving<br>
+    Play at the correct speed
+  </div>
+
+</div>
+
+<script>
+(function(){
+  /* photo frames fall back to the italic cue if a file isn't there yet */
+  var imgs = document.querySelectorAll('.frame img');
+  Array.prototype.forEach.call(imgs, function(img){
+    function miss(){ img.parentNode.className += ' missing'; }
+    img.addEventListener('error', miss);
+    if (img.complete && img.naturalWidth === 0) miss();
+  });
+
+  /* read-aloud player */
+  var audio = document.getElementById('audio'),
+      wrap  = document.getElementById('listen'),
+      pp    = document.getElementById('pp'),
+      bar   = document.getElementById('bar'),
+      fill  = document.getElementById('fill'),
+      clock = document.getElementById('clock');
+
+  if (!audio) return;
+
+  function fmt(s){
+    if (!isFinite(s) || s < 0) return '0:00';
+    var m = Math.floor(s/60), r = Math.floor(s%60);
+    return m + ':' + (r<10 ? '0'+r : r);
+  }
+
+  audio.addEventListener('error', function(){ wrap.hidden = true; });
+  audio.addEventListener('loadedmetadata', function(){ clock.textContent = fmt(audio.duration); });
+
+  pp.addEventListener('click', function(){
+    if (audio.paused) { audio.play(); } else { audio.pause(); }
+  });
+  audio.addEventListener('play',  function(){ pp.setAttribute('data-playing','1'); pp.setAttribute('aria-label','Pause the recording'); });
+  audio.addEventListener('pause', function(){ pp.setAttribute('data-playing','0'); pp.setAttribute('aria-label','Play the recording'); });
+  audio.addEventListener('ended', function(){ pp.setAttribute('data-playing','0'); });
+
+  audio.addEventListener('timeupdate', function(){
+    var pct = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
+    fill.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', Math.round(pct));
+    clock.textContent = fmt(audio.duration - audio.currentTime);
+  });
+
+  function seek(e){
+    if (!audio.duration) return;
+    var r = bar.getBoundingClientRect(),
+        cx = e.touches ? e.touches[0].clientX : e.clientX,
+        x = (cx - r.left) / r.width;
+    audio.currentTime = Math.max(0, Math.min(1, x)) * audio.duration;
+  }
+  bar.addEventListener('click', seek);
+  bar.addEventListener('keydown', function(e){
+    if (!audio.duration) return;
+    if (e.key === 'ArrowRight') { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); e.preventDefault(); }
+    if (e.key === 'ArrowLeft')  { audio.currentTime = Math.max(0, audio.currentTime - 5); e.preventDefault(); }
+  });
+})();
+</script>
+</body>
+</html>
