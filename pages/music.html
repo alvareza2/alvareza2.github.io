@@ -267,7 +267,8 @@
  
     // playAudio function is used when a button is clicked to refer to a specific audio
     function playAudio(audioNumber) { 
-      tmp = audioNumber
+      tmp = audioNumber;
+      tmp.currentTime = 0;
       tmp.play(); 
     } 
  
