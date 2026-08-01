@@ -32,26 +32,26 @@
     .button {
       font-family: monospace;
     }
-
+ 
     body {
         background-color: lightblue;
         font-family: monospace;
         color: white;
         text-align: center;
       }
-
+ 
       .active {
           background-color: lightgreen;
           color: white;
           border-radius: 33px;
       }
-
+ 
       .topnav {
         overflow: hidden;
         background-color: #333;
         border-radius: 33px;
       }
-
+ 
       .topnav a {
         float: left;
         display: block;
@@ -62,21 +62,21 @@
         font-size: 17px;
         border-radius: 33px;
       }
-
+ 
       .active {
         background-color: lightgreen;
         color: white;
       }
-
+ 
       .topnav .icon {
         display: none;
       }
-
+ 
       .dropdown {
         float: left;
         overflow: hidden;
       }
-
+ 
       .dropdown .dropbtn {
         font-size: 17px;    
         border: none;
@@ -89,7 +89,7 @@
         border-radius: 33px;
         transition: 0.5s;
       }
-
+ 
       .dropdown-content {
         display: none;
         position: absolute;
@@ -104,7 +104,7 @@
         background-color: #333;
         color: #FFFFFF;
       }
-
+ 
       .dropdown-content a {
         float: none;
         color: black;
@@ -113,24 +113,24 @@
         display: block;
         text-align: left;
       }
-
+ 
       .topnav a:hover, .dropdown:hover .dropbtn {
         background-color: #555;
         color: white;
         transition: 0.5s;
       }
-
+ 
       .dropdown-content a:hover {
         background-color: #ddd;
         color: black;
         transition: 0.5s;
       }
-
+ 
       .dropdown:hover .dropdown-content {
         display: block;
         transition: 0.5s;
       }
-
+ 
       @media screen and (max-width: 600px) {
         .topnav a:not(:first-child), .dropdown .dropbtn {
           display: none;
@@ -140,7 +140,7 @@
           display: block;
         }
       }
-
+ 
       @media screen and (max-width: 600px) {
         .topnav.responsive {position: relative;}
         .topnav.responsive .icon {
@@ -161,7 +161,7 @@
           text-align: left;
         }
       }
-
+ 
       button {
         background:  lightgreen;
         padding: 10px;
@@ -169,7 +169,7 @@
         border-radius: 15px;
         transition: all 0.3s ease;
       }
-
+ 
       button:hover {
         -ms-transform: scale(1.5); /* IE 9 */
         -webkit-transform: scale(1.5); /* Safari 3-8 */
@@ -178,7 +178,7 @@
         -moz-box-shadow: 0px 0px 31px #000000;
         box-shadow: 0px 0px 31px #000000;  
       }
-
+ 
       .pause {
         background: lightpink;
       }
@@ -188,21 +188,22 @@
     </style>
     
 <body>
-
+ 
     <h1>alyssa sound board</h1>
     <!-- sounds -->
     <div>
       <div>
         <audio id="iloveyou">
-          <source src="../images/iloveyou.m4a" type="audio/m4a">
-            your browser does not support the audio element.</source>
+          <source src="../images/iloveyou.m4a" type="audio/mp4">
+            your browser does not support the audio element.
+        </audio>
         <p>i love you</p>
         <button onclick="playAudio(iloveyou)" type="button">play audio</button>
         <button class="pause" onclick="pauseAudio()" type="button">pause audio</button> 
       </div>
       <div>
           <audio id="pobrecito">
-            <source src="../images/pobrecito.m4a" type="audio/m4a">
+            <source src="../images/pobrecito.m4a" type="audio/mp4">
               Your browser does not support the audio element.
             </source>
           </audio>
@@ -212,7 +213,7 @@
       </div>
       <div>
         <audio id="broooo">
-          <source src="../images/broooo.m4a" type="audio/m4a">
+          <source src="../images/broooo.m4a" type="audio/mp4">
             your browser does not support the audio element.
           </source>
         </audio>
@@ -223,7 +224,7 @@
     </div>
      <div>
           <audio id="mango">
-            <source src="../images/mango.m4a" type="audio/m4a">
+            <source src="../images/mango.m4a" type="audio/mp4">
               your browser does not support the audio element.
             </source>
           </audio>
@@ -233,7 +234,7 @@
       </div>
      <div>
           <audio id="siren">
-            <source src="../images/mango.siren" type="audio/m4a">
+            <source src="../images/siren.m4a" type="audio/mp4">
               your browser does not support the audio element.
             </source>
           </audio>
@@ -243,7 +244,7 @@
       </div>
      <div>
           <audio id="roar">
-            <source src="../images/mango.roar" type="audio/m4a">
+            <source src="../images/roar.m4a" type="audio/mp4">
               your browser does not support the audio element.
             </source>
           </audio>
@@ -252,7 +253,7 @@
           <button class="pause" onclick="pauseAudio()" type="button">pause audio</button> 
       </div>
     <script>
-
+ 
     // defining variables
     let iloveyou = document.getElementById("iloveyou"); 
     let pobrecito = document.getElementById("pobrecito"); 
@@ -260,23 +261,23 @@
     let mango = document.getElementById("mango");
     let siren = document.getElementById("siren");
     let roar = document.getElementById("roar");
-
+ 
     // temporary value for storing the current sound
     let tmp;
-
+ 
     // playAudio function is used when a button is clicked to refer to a specific audio
     function playAudio(audioNumber) { 
       tmp = audioNumber
       tmp.play(); 
     } 
-
+ 
     function pauseAudio() { 
       tmp.pause(); 
     } 
-
+ 
     </script>
   
-
+ 
   <a href="../index.html">⬅ Back Home</a>
 </body>
 </html>
