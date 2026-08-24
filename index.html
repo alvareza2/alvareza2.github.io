@@ -74,18 +74,31 @@ wn.style.color = generateRandomColor() // -> #34c7aa
   <button><a href="./pages/10252025.html">10-25-2025</a></button>
   <button><a href="./pages/01182026.html">01-18-2026</a></button>
   <button><a href="./pages/midwinterball.html">midwinter ball</a></button>
-  <button><a href="./pages/august.html">august</a></button>
-  <button><a href="./pages/septembe.html">september</a></button>
-  <button><a href="./pages/octobe.html">october</a></button>
-  <button><a href="./pages/november.html">november</a></button>
-  <button><a href="./pages/december.html">december</a></button>
-  <button><a href="./pages/january.html">january</a></button>
-  <button><a href="./pages/sam-not.html">february</a></button>
-  <button><a href="./pages/march.html">march</a></button>
-  <button><a href="./pages/april.html">april</a></button>
-  <button><a href="./pages/may.html">may</a></button>
-  <button><a href="./pages/june.html">june</a></button>
-  <button><a href="./pages/july.html">july</a></button>
+  <button data-month="2026-08"><a href="./pages/august.html">august</a></button>
+  <button data-month="2026-09"><a href="./pages/september.html">september</a></button>
+  <button data-month="2026-10"><a href="./pages/october.html">october</a></button>
+  <button data-month="2026-11"><a href="./pages/november.html">november</a></button>
+  <button data-month="2026-12"><a href="./pages/december.html">december</a></button>
+  <button data-month="2027-01"><a href="./pages/january.html">january</a></button>
+  <button data-month="2027-02"><a href="./pages/sam-note.html">february</a></button>
+  <button data-month="2027-03"><a href="./pages/march.html">march</a></button>
+  <button data-month="2027-04"><a href="./pages/april.html">april</a></button>
+  <button data-month="2027-05"><a href="./pages/may.html">may</a></button>
+  <button data-month="2027-06"><a href="./pages/june.html">june</a></button>
+  <button data-month="2027-07"><a href="./pages/july.html">july</a></button>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var now = new Date();
+  var currentYM = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+
+  document.querySelectorAll("button[data-month]").forEach(function (btn) {
+    if (btn.dataset.month > currentYM) {
+      btn.style.display = "none";
+    }
+  });
+});
+</script>
 
 </body>
 </html>
